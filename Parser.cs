@@ -42,6 +42,7 @@ namespace PO_Tool
 				var rx_regions = new Regex("^#(region|endregion|[1-9])$");
 				var rx_strings = new Regex("^(?<type>msgid|msgid_plural|msgstr|msgstr\\[(?<index>\\d)\\])\\s\"((?<string>.*))\"$");
 				var rx_srings_continue = new Regex("^\"(?<string>.*)\"$");
+				var rx_error = new Regex("^(msgid\\s\"|(#[,:.\\|]))");
 				var block = new GettextBlock();
 				string str = String.Empty;
 				bool end = false, close_block = false, keep_line = false;
@@ -60,21 +61,30 @@ namespace PO_Tool
 					{
 						bool is_data = false;
 						
+						//UNDONE: Хреновенько, но пока хоть так, чтоб строки не удалял.
+						if (block.ID != null && rx_error.IsMatch(str))
+							close_block = keep_line = true;
+						
 						#region Комментарии
-						if (str.StartsWith("#"))
+						else if (str.StartsWith("#"))
 						{
 							if (rx_regions.IsMatch(str))
 								close_block = true;
 							else
 							{
 								is_data = true;
+								
 								if (str.StartsWith("#,"))
 									block.Flags.Add(str);
 								else if (str.StartsWith("#:"))
 									block.Links.Add(str.Substring(2));
 								else if (str.StartsWith("#."))
 									block.AutoComments.Add(str);
-								else if (!Regex.IsMatch(str, "^#[~|]"))
+								else if (str.StartsWith("#|"))
+									block.PrevIDs.Add(str);
+								else if (str.StartsWith("#*"))
+									block.AltStrings.Add(str);
+								else
 									block.Comments.Add(str);
 							}
 						}
@@ -188,6 +198,8 @@ namespace PO_Tool
 			Comments = new List<string>();
 			AutoComments = new List<string>();
 			Links = new List<string>();
+			PrevIDs = new List<string>();
+			AltStrings = new List<string>();
 			ID_Breaks = new List<int>();
 			IDPlural_Breaks = new List<int>();
 			Str_Breaks = new List<int>();
@@ -197,7 +209,7 @@ namespace PO_Tool
 		public int StartLine, LinesCount;
 		public string ID, IDPlural, Str;
 		public string[] StrInd;
-		public List<string> Flags, Comments, AutoComments, Links;
+		public List<string> Flags, Comments, AutoComments, Links, PrevIDs, AltStrings;
 		public List<int> ID_Breaks, IDPlural_Breaks, Str_Breaks;
 		public List<int>[] StrInd_Breaks;
 		

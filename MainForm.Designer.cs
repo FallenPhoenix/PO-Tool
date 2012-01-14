@@ -52,7 +52,7 @@ namespace PO_Tool
 			this.chUpdStrings = new System.Windows.Forms.CheckBox();
 			this.chUpdHeader = new System.Windows.Forms.CheckBox();
 			this.gFormat = new System.Windows.Forms.GroupBox();
-			this.cbFormatStings = new System.Windows.Forms.ComboBox();
+			this.cbFormatStrings = new System.Windows.Forms.ComboBox();
 			this.cbFormatIDs = new System.Windows.Forms.ComboBox();
 			this.cbFormatLinks = new System.Windows.Forms.ComboBox();
 			this.cbSourceFile = new System.Windows.Forms.ComboBox();
@@ -65,6 +65,8 @@ namespace PO_Tool
 			this.chRemFlags = new System.Windows.Forms.CheckBox();
 			this.chRemStrings = new System.Windows.Forms.CheckBox();
 			this.chRemRegions = new System.Windows.Forms.CheckBox();
+			this.progressBar = new System.Windows.Forms.ProgressBar();
+			this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
 			this.gUpdate.SuspendLayout();
 			this.gFormat.SuspendLayout();
 			this.gRemove.SuspendLayout();
@@ -75,27 +77,27 @@ namespace PO_Tool
 			this.label1.AutoSize = true;
 			this.label1.Location = new System.Drawing.Point(12, 9);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(87, 13);
+			this.label1.Size = new System.Drawing.Size(83, 13);
 			this.label1.TabIndex = 3;
-			this.label1.Text = "Исходный файл";
+			this.label1.Text = "Исходный путь";
 			// 
 			// label2
 			// 
 			this.label2.AutoSize = true;
 			this.label2.Location = new System.Drawing.Point(12, 60);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(99, 13);
+			this.label2.Size = new System.Drawing.Size(94, 13);
 			this.label2.TabIndex = 4;
-			this.label2.Text = "Файл обновления";
+			this.label2.Text = "Путь обновления";
 			// 
 			// label3
 			// 
 			this.label3.AutoSize = true;
 			this.label3.Location = new System.Drawing.Point(12, 115);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(80, 13);
+			this.label3.Size = new System.Drawing.Size(76, 13);
 			this.label3.TabIndex = 5;
-			this.label3.Text = "Целевой файл";
+			this.label3.Text = "Целевой путь";
 			// 
 			// bSourceBrowse
 			// 
@@ -240,7 +242,7 @@ namespace PO_Tool
 			// 
 			// gFormat
 			// 
-			this.gFormat.Controls.Add(this.cbFormatStings);
+			this.gFormat.Controls.Add(this.cbFormatStrings);
 			this.gFormat.Controls.Add(this.cbFormatIDs);
 			this.gFormat.Controls.Add(this.cbFormatLinks);
 			this.gFormat.Location = new System.Drawing.Point(344, 170);
@@ -250,19 +252,19 @@ namespace PO_Tool
 			this.gFormat.TabStop = false;
 			this.gFormat.Text = "Форматирование";
 			// 
-			// cbFormatStings
+			// cbFormatStrings
 			// 
-			this.cbFormatStings.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbFormatStings.FormattingEnabled = true;
-			this.cbFormatStings.Items.AddRange(new object[] {
+			this.cbFormatStrings.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbFormatStrings.FormattingEnabled = true;
+			this.cbFormatStrings.Items.AddRange(new object[] {
 									"Не трогать строки перевода",
 									"Слить строки перевода",
 									"Разделить строки перевода по \"\\n\""});
-			this.cbFormatStings.Location = new System.Drawing.Point(6, 69);
-			this.cbFormatStings.Name = "cbFormatStings";
-			this.cbFormatStings.Size = new System.Drawing.Size(244, 21);
-			this.cbFormatStings.TabIndex = 5;
-			this.cbFormatStings.Tag = "MsgStringsFormat";
+			this.cbFormatStrings.Location = new System.Drawing.Point(6, 69);
+			this.cbFormatStrings.Name = "cbFormatStrings";
+			this.cbFormatStrings.Size = new System.Drawing.Size(244, 21);
+			this.cbFormatStrings.TabIndex = 5;
+			this.cbFormatStrings.Tag = "MsgStringsFormat";
 			// 
 			// cbFormatIDs
 			// 
@@ -302,6 +304,7 @@ namespace PO_Tool
 			this.cbSourceFile.Location = new System.Drawing.Point(12, 25);
 			this.cbSourceFile.Name = "cbSourceFile";
 			this.cbSourceFile.Size = new System.Drawing.Size(557, 21);
+			this.cbSourceFile.Sorted = true;
 			this.cbSourceFile.TabIndex = 17;
 			this.cbSourceFile.DragDrop += new System.Windows.Forms.DragEventHandler(this.cbFiles_DragDrop);
 			this.cbSourceFile.DragEnter += new System.Windows.Forms.DragEventHandler(this.cbFiles_DragEnter);
@@ -316,6 +319,7 @@ namespace PO_Tool
 			this.cbUpdateFile.Location = new System.Drawing.Point(12, 76);
 			this.cbUpdateFile.Name = "cbUpdateFile";
 			this.cbUpdateFile.Size = new System.Drawing.Size(557, 21);
+			this.cbUpdateFile.Sorted = true;
 			this.cbUpdateFile.TabIndex = 18;
 			this.cbUpdateFile.DragDrop += new System.Windows.Forms.DragEventHandler(this.cbFiles_DragDrop);
 			this.cbUpdateFile.DragEnter += new System.Windows.Forms.DragEventHandler(this.cbFiles_DragEnter);
@@ -331,6 +335,7 @@ namespace PO_Tool
 			this.cbDestFile.Location = new System.Drawing.Point(12, 131);
 			this.cbDestFile.Name = "cbDestFile";
 			this.cbDestFile.Size = new System.Drawing.Size(557, 21);
+			this.cbDestFile.Sorted = true;
 			this.cbDestFile.TabIndex = 19;
 			this.cbDestFile.DragDrop += new System.Windows.Forms.DragEventHandler(this.cbFiles_DragDrop);
 			this.cbDestFile.DragEnter += new System.Windows.Forms.DragEventHandler(this.cbFiles_DragEnter);
@@ -416,11 +421,28 @@ namespace PO_Tool
 			this.chRemRegions.Text = "Разделы";
 			this.chRemRegions.UseVisualStyleBackColor = true;
 			// 
+			// progressBar
+			// 
+			this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.progressBar.Location = new System.Drawing.Point(12, 365);
+			this.progressBar.Name = "progressBar";
+			this.progressBar.Size = new System.Drawing.Size(100, 13);
+			this.progressBar.TabIndex = 21;
+			this.progressBar.Visible = false;
+			// 
+			// backgroundWorker
+			// 
+			this.backgroundWorker.WorkerReportsProgress = true;
+			this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
+			this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
+			this.backgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker_ProgressChanged);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(612, 390);
+			this.Controls.Add(this.progressBar);
 			this.Controls.Add(this.gRemove);
 			this.Controls.Add(this.cbDestFile);
 			this.Controls.Add(this.cbUpdateFile);
@@ -449,6 +471,9 @@ namespace PO_Tool
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.ComboBox cbFormatStrings;
+		private System.ComponentModel.BackgroundWorker backgroundWorker;
+		private System.Windows.Forms.ProgressBar progressBar;
 		private System.Windows.Forms.CheckBox chRemRegions;
 		private System.Windows.Forms.CheckBox chRemStrings;
 		private System.Windows.Forms.CheckBox chUpdComments;
@@ -469,7 +494,6 @@ namespace PO_Tool
 		private System.Windows.Forms.CheckBox chUpdHeader;
 		private System.Windows.Forms.ComboBox cbFormatLinks;
 		private System.Windows.Forms.ComboBox cbFormatIDs;
-		private System.Windows.Forms.ComboBox cbFormatStings;
 		private System.Windows.Forms.SaveFileDialog saveFileDialog;
 		private System.Windows.Forms.OpenFileDialog openFileDialog;
 		private System.Windows.Forms.Button bStart;
