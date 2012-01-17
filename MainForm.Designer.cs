@@ -78,7 +78,7 @@ namespace PO_Tool
 			this.label1.Location = new System.Drawing.Point(12, 9);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(83, 13);
-			this.label1.TabIndex = 3;
+			this.label1.TabIndex = 999;
 			this.label1.Text = "Исходный путь";
 			// 
 			// label2
@@ -87,7 +87,7 @@ namespace PO_Tool
 			this.label2.Location = new System.Drawing.Point(12, 60);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(94, 13);
-			this.label2.TabIndex = 4;
+			this.label2.TabIndex = 999;
 			this.label2.Text = "Путь обновления";
 			// 
 			// label3
@@ -96,7 +96,7 @@ namespace PO_Tool
 			this.label3.Location = new System.Drawing.Point(12, 115);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(76, 13);
-			this.label3.TabIndex = 5;
+			this.label3.TabIndex = 999;
 			this.label3.Text = "Целевой путь";
 			// 
 			// bSourceBrowse
@@ -105,7 +105,7 @@ namespace PO_Tool
 			this.bSourceBrowse.Location = new System.Drawing.Point(575, 23);
 			this.bSourceBrowse.Name = "bSourceBrowse";
 			this.bSourceBrowse.Size = new System.Drawing.Size(27, 23);
-			this.bSourceBrowse.TabIndex = 6;
+			this.bSourceBrowse.TabIndex = 2;
 			this.bSourceBrowse.Text = "...";
 			this.bSourceBrowse.UseVisualStyleBackColor = true;
 			this.bSourceBrowse.Click += new System.EventHandler(this.bBrowse_Click);
@@ -116,7 +116,7 @@ namespace PO_Tool
 			this.bUpdateBrowse.Location = new System.Drawing.Point(575, 74);
 			this.bUpdateBrowse.Name = "bUpdateBrowse";
 			this.bUpdateBrowse.Size = new System.Drawing.Size(27, 23);
-			this.bUpdateBrowse.TabIndex = 7;
+			this.bUpdateBrowse.TabIndex = 4;
 			this.bUpdateBrowse.Text = "...";
 			this.bUpdateBrowse.UseVisualStyleBackColor = true;
 			this.bUpdateBrowse.Click += new System.EventHandler(this.bBrowse_Click);
@@ -127,7 +127,7 @@ namespace PO_Tool
 			this.bDestBrowse.Location = new System.Drawing.Point(575, 129);
 			this.bDestBrowse.Name = "bDestBrowse";
 			this.bDestBrowse.Size = new System.Drawing.Size(27, 23);
-			this.bDestBrowse.TabIndex = 8;
+			this.bDestBrowse.TabIndex = 6;
 			this.bDestBrowse.Text = "...";
 			this.bDestBrowse.UseVisualStyleBackColor = true;
 			this.bDestBrowse.Click += new System.EventHandler(this.bBrowse_Click);
@@ -138,7 +138,7 @@ namespace PO_Tool
 			this.bStart.Location = new System.Drawing.Point(263, 355);
 			this.bStart.Name = "bStart";
 			this.bStart.Size = new System.Drawing.Size(75, 23);
-			this.bStart.TabIndex = 11;
+			this.bStart.TabIndex = 0;
 			this.bStart.Text = "Поехали";
 			this.bStart.UseVisualStyleBackColor = true;
 			this.bStart.Click += new System.EventHandler(this.bStart_Click);
@@ -164,7 +164,7 @@ namespace PO_Tool
 			this.gUpdate.Location = new System.Drawing.Point(12, 170);
 			this.gUpdate.Name = "gUpdate";
 			this.gUpdate.Size = new System.Drawing.Size(165, 160);
-			this.gUpdate.TabIndex = 15;
+			this.gUpdate.TabIndex = 7;
 			this.gUpdate.TabStop = false;
 			this.gUpdate.Text = "Обновление";
 			// 
@@ -174,7 +174,7 @@ namespace PO_Tool
 			this.chUpdComments.Location = new System.Drawing.Point(6, 65);
 			this.chUpdComments.Name = "chUpdComments";
 			this.chUpdComments.Size = new System.Drawing.Size(96, 17);
-			this.chUpdComments.TabIndex = 5;
+			this.chUpdComments.TabIndex = 2;
 			this.chUpdComments.Tag = "Comments";
 			this.chUpdComments.Text = "Комментарии";
 			this.chUpdComments.UseVisualStyleBackColor = true;
@@ -186,7 +186,7 @@ namespace PO_Tool
 			this.chUpdAutoComments.Location = new System.Drawing.Point(6, 88);
 			this.chUpdAutoComments.Name = "chUpdAutoComments";
 			this.chUpdAutoComments.Size = new System.Drawing.Size(119, 17);
-			this.chUpdAutoComments.TabIndex = 4;
+			this.chUpdAutoComments.TabIndex = 3;
 			this.chUpdAutoComments.Tag = "AutoComments";
 			this.chUpdAutoComments.Text = "Автокомментарии";
 			this.chUpdAutoComments.UseVisualStyleBackColor = true;
@@ -198,7 +198,7 @@ namespace PO_Tool
 			this.chUpdLinks.Location = new System.Drawing.Point(6, 111);
 			this.chUpdLinks.Name = "chUpdLinks";
 			this.chUpdLinks.Size = new System.Drawing.Size(65, 17);
-			this.chUpdLinks.TabIndex = 3;
+			this.chUpdLinks.TabIndex = 4;
 			this.chUpdLinks.Tag = "Links";
 			this.chUpdLinks.Text = "Ссылки";
 			this.chUpdLinks.UseVisualStyleBackColor = true;
@@ -210,7 +210,7 @@ namespace PO_Tool
 			this.chUpdFlags.Location = new System.Drawing.Point(6, 134);
 			this.chUpdFlags.Name = "chUpdFlags";
 			this.chUpdFlags.Size = new System.Drawing.Size(60, 17);
-			this.chUpdFlags.TabIndex = 2;
+			this.chUpdFlags.TabIndex = 5;
 			this.chUpdFlags.Tag = "Flags";
 			this.chUpdFlags.Text = "Флаги";
 			this.chUpdFlags.UseVisualStyleBackColor = true;
@@ -248,7 +248,7 @@ namespace PO_Tool
 			this.gFormat.Location = new System.Drawing.Point(344, 170);
 			this.gFormat.Name = "gFormat";
 			this.gFormat.Size = new System.Drawing.Size(256, 160);
-			this.gFormat.TabIndex = 16;
+			this.gFormat.TabIndex = 9;
 			this.gFormat.TabStop = false;
 			this.gFormat.Text = "Форматирование";
 			// 
@@ -263,7 +263,7 @@ namespace PO_Tool
 			this.cbFormatStrings.Location = new System.Drawing.Point(6, 69);
 			this.cbFormatStrings.Name = "cbFormatStrings";
 			this.cbFormatStrings.Size = new System.Drawing.Size(244, 21);
-			this.cbFormatStrings.TabIndex = 5;
+			this.cbFormatStrings.TabIndex = 1;
 			this.cbFormatStrings.Tag = "MsgStringsFormat";
 			// 
 			// cbFormatIDs
@@ -277,7 +277,7 @@ namespace PO_Tool
 			this.cbFormatIDs.Location = new System.Drawing.Point(6, 42);
 			this.cbFormatIDs.Name = "cbFormatIDs";
 			this.cbFormatIDs.Size = new System.Drawing.Size(244, 21);
-			this.cbFormatIDs.TabIndex = 3;
+			this.cbFormatIDs.TabIndex = 0;
 			this.cbFormatIDs.Tag = "MsgIDsFormat";
 			// 
 			// cbFormatLinks
@@ -291,7 +291,7 @@ namespace PO_Tool
 			this.cbFormatLinks.Location = new System.Drawing.Point(6, 96);
 			this.cbFormatLinks.Name = "cbFormatLinks";
 			this.cbFormatLinks.Size = new System.Drawing.Size(244, 21);
-			this.cbFormatLinks.TabIndex = 1;
+			this.cbFormatLinks.TabIndex = 2;
 			this.cbFormatLinks.Tag = "LinksFormat";
 			// 
 			// cbSourceFile
@@ -305,7 +305,7 @@ namespace PO_Tool
 			this.cbSourceFile.Name = "cbSourceFile";
 			this.cbSourceFile.Size = new System.Drawing.Size(557, 21);
 			this.cbSourceFile.Sorted = true;
-			this.cbSourceFile.TabIndex = 17;
+			this.cbSourceFile.TabIndex = 1;
 			this.cbSourceFile.DragDrop += new System.Windows.Forms.DragEventHandler(this.cbFiles_DragDrop);
 			this.cbSourceFile.DragEnter += new System.Windows.Forms.DragEventHandler(this.cbFiles_DragEnter);
 			// 
@@ -320,7 +320,7 @@ namespace PO_Tool
 			this.cbUpdateFile.Name = "cbUpdateFile";
 			this.cbUpdateFile.Size = new System.Drawing.Size(557, 21);
 			this.cbUpdateFile.Sorted = true;
-			this.cbUpdateFile.TabIndex = 18;
+			this.cbUpdateFile.TabIndex = 3;
 			this.cbUpdateFile.DragDrop += new System.Windows.Forms.DragEventHandler(this.cbFiles_DragDrop);
 			this.cbUpdateFile.DragEnter += new System.Windows.Forms.DragEventHandler(this.cbFiles_DragEnter);
 			this.cbUpdateFile.TextChanged += new System.EventHandler(this.cbUpdateFile_TextChanged);
@@ -336,7 +336,7 @@ namespace PO_Tool
 			this.cbDestFile.Name = "cbDestFile";
 			this.cbDestFile.Size = new System.Drawing.Size(557, 21);
 			this.cbDestFile.Sorted = true;
-			this.cbDestFile.TabIndex = 19;
+			this.cbDestFile.TabIndex = 5;
 			this.cbDestFile.DragDrop += new System.Windows.Forms.DragEventHandler(this.cbFiles_DragDrop);
 			this.cbDestFile.DragEnter += new System.Windows.Forms.DragEventHandler(this.cbFiles_DragEnter);
 			// 
@@ -351,7 +351,7 @@ namespace PO_Tool
 			this.gRemove.Location = new System.Drawing.Point(183, 170);
 			this.gRemove.Name = "gRemove";
 			this.gRemove.Size = new System.Drawing.Size(155, 160);
-			this.gRemove.TabIndex = 20;
+			this.gRemove.TabIndex = 8;
 			this.gRemove.TabStop = false;
 			this.gRemove.Text = "Удаление";
 			// 
@@ -361,7 +361,7 @@ namespace PO_Tool
 			this.chRemComments.Location = new System.Drawing.Point(6, 65);
 			this.chRemComments.Name = "chRemComments";
 			this.chRemComments.Size = new System.Drawing.Size(96, 17);
-			this.chRemComments.TabIndex = 11;
+			this.chRemComments.TabIndex = 2;
 			this.chRemComments.Tag = "Comments";
 			this.chRemComments.Text = "Комментарии";
 			this.chRemComments.UseVisualStyleBackColor = true;
@@ -372,7 +372,7 @@ namespace PO_Tool
 			this.chRemAutoComments.Location = new System.Drawing.Point(6, 88);
 			this.chRemAutoComments.Name = "chRemAutoComments";
 			this.chRemAutoComments.Size = new System.Drawing.Size(119, 17);
-			this.chRemAutoComments.TabIndex = 10;
+			this.chRemAutoComments.TabIndex = 3;
 			this.chRemAutoComments.Tag = "AutoComments";
 			this.chRemAutoComments.Text = "Автокомментарии";
 			this.chRemAutoComments.UseVisualStyleBackColor = true;
@@ -383,7 +383,7 @@ namespace PO_Tool
 			this.chRemLinks.Location = new System.Drawing.Point(6, 111);
 			this.chRemLinks.Name = "chRemLinks";
 			this.chRemLinks.Size = new System.Drawing.Size(65, 17);
-			this.chRemLinks.TabIndex = 9;
+			this.chRemLinks.TabIndex = 4;
 			this.chRemLinks.Tag = "Links";
 			this.chRemLinks.Text = "Ссылки";
 			this.chRemLinks.UseVisualStyleBackColor = true;
@@ -394,7 +394,7 @@ namespace PO_Tool
 			this.chRemFlags.Location = new System.Drawing.Point(6, 134);
 			this.chRemFlags.Name = "chRemFlags";
 			this.chRemFlags.Size = new System.Drawing.Size(60, 17);
-			this.chRemFlags.TabIndex = 8;
+			this.chRemFlags.TabIndex = 5;
 			this.chRemFlags.Tag = "Flags";
 			this.chRemFlags.Text = "Флаги";
 			this.chRemFlags.UseVisualStyleBackColor = true;
@@ -405,7 +405,7 @@ namespace PO_Tool
 			this.chRemStrings.Location = new System.Drawing.Point(6, 19);
 			this.chRemStrings.Name = "chRemStrings";
 			this.chRemStrings.Size = new System.Drawing.Size(70, 17);
-			this.chRemStrings.TabIndex = 7;
+			this.chRemStrings.TabIndex = 0;
 			this.chRemStrings.Tag = "MsgStrings";
 			this.chRemStrings.Text = "Перевод";
 			this.chRemStrings.UseVisualStyleBackColor = true;
@@ -416,7 +416,7 @@ namespace PO_Tool
 			this.chRemRegions.Location = new System.Drawing.Point(6, 42);
 			this.chRemRegions.Name = "chRemRegions";
 			this.chRemRegions.Size = new System.Drawing.Size(71, 17);
-			this.chRemRegions.TabIndex = 6;
+			this.chRemRegions.TabIndex = 1;
 			this.chRemRegions.Tag = "Regions";
 			this.chRemRegions.Text = "Разделы";
 			this.chRemRegions.UseVisualStyleBackColor = true;
@@ -427,7 +427,7 @@ namespace PO_Tool
 			this.progressBar.Location = new System.Drawing.Point(12, 365);
 			this.progressBar.Name = "progressBar";
 			this.progressBar.Size = new System.Drawing.Size(100, 13);
-			this.progressBar.TabIndex = 21;
+			this.progressBar.TabIndex = 999;
 			this.progressBar.Visible = false;
 			// 
 			// backgroundWorker
