@@ -23,9 +23,16 @@ namespace PO_Tool
 		bool FilesUpdated;
 		int FilesError;
 		bool Stop;
+		
+		// Опции
 		public bool UpdHeader, UpdStrings, UpdComments, UpdAutoComments, UpdLinks, UpdFlags;
 		public bool RemStrings, RemRegions, RemComments, RemAutoComments, RemLinks, RemFlags;
 		public int FormatIDs, FormatStrings, FormatLinks;
+		
+		// Коды ошибок (EG - глобальные, EF - отдельного файла)
+		const int EG_SrcEmpty = 1, EG_SrcBad = 2, EG_SrcNotExist = 3, EG_UpdBad = 4, EG_TrgEmpty = 5, EG_TrgBad = 6, EG_1Src_ManyUpd = 7, EG_1Src_ManyTrg = 8;
+		const int EF_ParserSrc = 10, EF_ParserUpd = 11, EF_Process = 12, EF_Write = 13, EF_Canceled = 14;
+		
 		
 		public MainForm()
 		{
@@ -146,20 +153,21 @@ namespace PO_Tool
 			Files = new List<GTFile>();
 			
 			#region Определение таблицы файлов
-			if (cbSourceFile.Text.Length == 0) FilesError = 1;
-			else if (cbDestFile.Text.Length == 0) FilesError = 5;
+			if (cbSourceFile.Text.Length == 0) FilesError = EG_SrcEmpty;
+			else if (cbDestFile.Text.Length == 0) FilesError = EG_TrgEmpty;
 			if (FilesError == 0)
 			{
 				FileInfo[] src_files, upd_files;
 				string[] src_filter, upd_filter;
 				bool src_solo = GetFiles(cbSourceFile.Text, out src_files, out src_filter);
 				bool upd_solo = GetFiles(cbUpdateFile.Text, out upd_files, out upd_filter);
-				if (src_files.Length == 0) FilesError = (src_solo ? 2 : 3);
-				else if (cbUpdateFile.Text.Length > 0 && upd_files.Length == 0) FilesError = 4;
-				else if (src_solo && upd_filter[1].Contains("*")) FilesError = 6;
-				else if (src_solo && cbDestFile.Text.Contains("*")) FilesError = 7;
+				if (src_files.Length == 0) FilesError = (src_solo ? EG_SrcBad : EG_SrcNotExist);
+				else if (cbUpdateFile.Text.Length > 0 && upd_files.Length == 0) FilesError = EG_UpdBad;
+				else if (src_solo && upd_filter[1].Contains("*")) FilesError = EG_1Src_ManyUpd;
+				else if (src_solo && cbDestFile.Text.Contains("*")) FilesError = EG_1Src_ManyTrg;
 				else
 				{
+					//TODO: Сделать проверку на создаваемый файл/папку.
 					var dest_filter = SplitPath(cbDestFile.Text);
 					var dest_ext = GetExt(dest_filter[1]);
 					bool keep_ext = dest_ext.Contains("*");
@@ -179,7 +187,7 @@ namespace PO_Tool
 						}
 						Files.Add(new GTFile(fs.FullName, upd_file, (src_solo ? cbDestFile.Text : dest_filter[0] + "/" + (keep_ext ? fs.Name : GetName(fs) + dest_ext))));
 					}
-					if (Files.Count == 0) FilesError = 3;
+					if (Files.Count == 0) FilesError = EG_SrcNotExist;
 				}
 			}
 			#endregion
@@ -211,14 +219,14 @@ namespace PO_Tool
 				for (int progress = 0; progress < Files.Count; progress ++)
 				{
 					var file = Files[progress];
-					FilesError = (Stop ? 14 : 0);
+					FilesError = (Stop ? EF_Canceled : 0);
 
 					string file_src = file.Source, file_upd = file.Update, file_dest = file.Target;
 					bool upd = (file_upd.Length > 0);
 					FilesUpdated = (FilesUpdated || upd);
 					Parser parser_src = new Parser(file_src), paser_upd = new Parser(file_upd);
-					if (FilesError == 0 && !parser_src.Parse()) FilesError = 10;
-					if (FilesError == 0 && upd && !paser_upd.Parse()) FilesError = 11;
+					if (FilesError == 0 && !parser_src.Parse()) FilesError = EF_ParserSrc;
+					if (FilesError == 0 && upd && !paser_upd.Parse()) FilesError = EF_ParserUpd;
 					
 					var data = new List<string>();
 					
@@ -288,7 +296,7 @@ namespace PO_Tool
 						}
 						catch //(Exception ex)
 						{
-							FilesError = 12;
+							FilesError = EF_Process;
 							//System.Diagnostics.Debug.WriteLine(ex.ToString());
 						}
 					}
@@ -313,7 +321,7 @@ namespace PO_Tool
 						}
 						catch
 						{
-							FilesError = 13;
+							FilesError = EF_Write;
 						}
 					}
 					#endregion
@@ -349,13 +357,14 @@ namespace PO_Tool
 			
 			switch (FilesError)
 			{
-				case 1: message = "Не указан исходный файл!"; break;
-				case 2: message = "Неверно указан исходный файл!"; break;
-				case 3: message = "Исходные файлы не найдены!"; break;
-				case 4: message = "Неверно указан файл обновления!"; break;
-				case 5: message = "Не указан целевой файл!"; break;
-				case 6: message = "Нельзя использовать несколько файлов обновлений для единственного исходного!"; break;
-				case 7: message = "Нельзя использовать несколько целевых файлов для единственного исходного!"; break;
+				case EG_SrcEmpty: message = "Не указан исходный файл!"; break;
+				case EG_SrcBad: message = "Неверно указан исходный файл!"; break;
+				case EG_SrcNotExist: message = "Исходные файлы не найдены!"; break;
+				case EG_UpdBad: message = "Неверно указан файл обновления!"; break;
+				case EG_TrgEmpty: message = "Не указан целевой файл!"; break;
+				case EG_TrgBad: message = "Неверно указан целевой файл!"; break;
+				case EG_1Src_ManyUpd: message = "Нельзя использовать несколько файлов обновлений для единственного исходного!"; break;
+				case EG_1Src_ManyTrg: message = "Нельзя использовать несколько целевых файлов для единственного исходного!"; break;
 				default:
 					bool updated = false;
 					if (FilesUpdated)
