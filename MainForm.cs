@@ -155,7 +155,7 @@ namespace PO_Tool
 				bool src_solo = GetFiles(cbSourceFile.Text, out src_files, out src_filter);
 				bool upd_solo = GetFiles(cbUpdateFile.Text, out upd_files, out upd_filter);
 				if (src_files.Length == 0) FilesError = (src_solo ? 2 : 3);
-				else if (upd_solo && upd_files.Length == 0) FilesError = 4;
+				else if (cbUpdateFile.Text.Length > 0 && upd_files.Length == 0) FilesError = 4;
 				else if (src_solo && upd_filter[1].Contains("*")) FilesError = 6;
 				else if (src_solo && cbDestFile.Text.Contains("*")) FilesError = 7;
 				else
@@ -457,11 +457,19 @@ namespace PO_Tool
 		}
 		
 		/// <summary> Ищет файлы по указанному пути. </summary>
+		/// <param name="path"> </param>
+		/// <param name="files"> Найденные файлы. </param>
+		/// <param name="filter"> [0] - папка; [1] - файл (маска). </param>
+		/// <returns> true, если запрошен и найден 1 файл; иначе false. </returns>
 		bool GetFiles(string path, out FileInfo[] files, out string[] filter)
 		{
 			bool simple = File.Exists(path);
 			filter = SplitPath(path);
-			var sf = (simple ? new[]{path} : Directory.GetFiles(filter[0], filter[1]));
+			var sf = (simple
+			          ? new[]{path} // если указан и найден 1 файл, то его и возвращаем
+			          : (Directory.Exists(filter[0])
+			             ? Directory.GetFiles(filter[0], filter[1]) // если нет, но существует папка, ищем в ней
+			             : new string[]{})); // если и папки нет, то вернем пустой массив
 			files = new FileInfo[sf.Length];
 			for (int i = 0; i < sf.Length; i ++)
 				files[i] = new FileInfo(sf[i]);
