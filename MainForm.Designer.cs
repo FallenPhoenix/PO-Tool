@@ -259,7 +259,8 @@ namespace PO_Tool
 			this.cbFormatStrings.Items.AddRange(new object[] {
 									"Не трогать строки перевода",
 									"Слить строки перевода",
-									"Разделить строки перевода по \"\\n\""});
+									"Разделить строки перевода по \"\\n\"",
+									"Разделить переводы по \"\\n\" (сокращ.)"});
 			this.cbFormatStrings.Location = new System.Drawing.Point(6, 69);
 			this.cbFormatStrings.Name = "cbFormatStrings";
 			this.cbFormatStrings.Size = new System.Drawing.Size(244, 21);
@@ -273,7 +274,8 @@ namespace PO_Tool
 			this.cbFormatIDs.Items.AddRange(new object[] {
 									"Не трогать оригинальные строки",
 									"Слить оригинальные строки",
-									"Разделить оригинальные строки по \"\\n\""});
+									"Разделить оригинальные строки по \"\\n\"",
+									"Разделить оригиналы по \"\\n\" (сокращ.)"});
 			this.cbFormatIDs.Location = new System.Drawing.Point(6, 42);
 			this.cbFormatIDs.Name = "cbFormatIDs";
 			this.cbFormatIDs.Size = new System.Drawing.Size(244, 21);

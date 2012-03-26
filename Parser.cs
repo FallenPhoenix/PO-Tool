@@ -279,7 +279,7 @@ namespace PO_Tool
 			var lstr = new List<string>();
 			switch (format)
 			{
-				case 0:
+				case 0: // Сохранить исходные переносы
 					if (br.Count == 0)
 						lstr.Add(src);
 					else
@@ -292,20 +292,39 @@ namespace PO_Tool
 					for (int i = 0; i < lstr.Count; i ++)
 						lstr[i] = "\"" + lstr[i] + "\"";
 					break;
-				case 1:
+				case 1: // Слить все в одну строку
 					lstr.Add("\"" + src + "\"");
 					break;
-				case 2:
+				case 2: // Разделить строки по \n (строго)
+				case 3: // Разделить строки по \n (сокращенно)
 					lstr.AddRange(src.Split(new string[]{@"\n"}, StringSplitOptions.None));
 					if (lstr.Count > 1)
 					{
-						for (int i = 0; i < lstr.Count - 1; i ++)
+						if (format == 3) // оптимизация переносов
+						{
+							var start = String.Empty;
+							while (lstr.Count > 1 && lstr[0].Length == 0)
+							{
+								start += "\\n";
+								lstr.RemoveAt(0);
+							}
+							lstr[0] = start + lstr[0];
+							for (int i = 0; i < lstr.Count - 1; i ++)
+								if (lstr[i + 1].Length == 0)
+								{
+									lstr[i] += "\\n";
+									lstr.RemoveAt(i + 1);
+									i --;
+								}
+						}
+						for (int i = 0; i < lstr.Count - 1; i ++) // добавление кавычек и переноса ко всем строкам, кроме последней
 							lstr[i] = "\"" + lstr[i] + "\\n\"";
 						if (lstr.Count == 2 && lstr[1].Length == 0)
 							return new string[]{lstr[0]};
-						lstr.Insert(0, "\"\"");
+						if (lstr.Count > 1) lstr.Insert(0, "\"\""); // добавление первой пустой строки в многострочном тексте
 					}
-					if (lstr.Count > 1 && lstr[lstr.Count - 1].Length == 0) lstr.RemoveAt(lstr.Count - 1);
+					if (lstr.Count > 1 && lstr[lstr.Count - 1].Length == 0)
+						lstr.RemoveAt(lstr.Count - 1); // удаление последней пустой строки
 					else lstr[lstr.Count - 1] = "\"" + lstr[lstr.Count - 1] + "\"";
 					break;
 			}
