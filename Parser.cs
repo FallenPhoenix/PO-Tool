@@ -39,7 +39,7 @@ namespace PO_Tool
 			if (!File.Exists(SourceFile)) return false;
 			try
 			{
-				var rx_regions = new Regex("^#(region|endregion|[1-9])$");
+				var rx_regions = new Regex("^#(region|endregion|[1-9]).*$");
 				var rx_strings = new Regex("^(?<type>msgid|msgid_plural|msgstr|msgstr\\[(?<index>\\d)\\])\\s\"((?<string>.*))\"$");
 				var rx_srings_continue = new Regex("^\"(?<string>.*)\"$");
 				var rx_error = new Regex("^(msgid\\s\"|(#[,:.\\|]))");
