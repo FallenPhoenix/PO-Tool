@@ -5,7 +5,9 @@
  * Time: 10:29
  * 
  */
- 
+
+//#define DebugSourceParser
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -270,6 +272,32 @@ namespace PO_Tool
 					if (FilesError == 0 && upd && !paser_upd.Parse()) FilesError = EF_ParserUpd;
 					
 					var data = new List<string>();
+					
+					#region Отладка парсера
+					#if DebugSourceParser
+					try
+					{
+						var sr = new StreamReader(file_src);
+						data.AddRange(sr.ReadToEnd().Replace("\r\n", "\n").Split('\n'));
+						sr.Close();
+						Directory.CreateDirectory(SplitPath(file_dest)[0]);
+						var sw = new StreamWriter(file_dest + "~dbg.txt");
+						for (int bl = 0; bl < parser_src.Data.Count; bl ++)
+						{
+							var block = parser_src.Data[bl];
+							sw.WriteLine(String.Format("——————————— Block {0} ———————————", bl));
+							for (int ln = 0; ln < block.LinesCount; ln++)
+								sw.WriteLine(data[block.StartLine + ln]);
+						}
+						sw.Close();
+					}
+					catch (Exception ex)
+					{
+						System.Diagnostics.Trace.WriteLine(ex.ToString());
+					}
+					data.Clear();
+					#endif
+					#endregion
 					
 					#region Применение изменений
 					bool wri_strings = !RemStrings, wri_com = !RemComments, wri_autocom = !RemAutoComments, wri_links = !RemLinks, wri_flags = !RemFlags, wri_prev = true, wri_alt = true;
