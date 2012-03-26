@@ -5,6 +5,7 @@
  * Time: 10:29
  * 
  */
+ 
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -17,6 +18,7 @@ namespace PO_Tool
 {
 	public partial class MainForm : Form
 	{
+		#region Переменные и константы
 		bool Unix = System.Environment.OSVersion.Platform == PlatformID.Unix;
 		
 		List<GTFile> Files;
@@ -32,6 +34,7 @@ namespace PO_Tool
 		// Коды ошибок (EG - глобальные, EF - отдельного файла)
 		const int EG_SrcEmpty = 1, EG_SrcBad = 2, EG_SrcNotExist = 3, EG_UpdBad = 4, EG_TrgEmpty = 5, EG_TrgBad = 6, EG_1Src_ManyUpd = 7, EG_1Src_ManyTrg = 8;
 		const int EF_ParserSrc = 10, EF_ParserUpd = 11, EF_Process = 12, EF_Write = 13, EF_Canceled = 14;
+		#endregion
 		
 		
 		public MainForm()
@@ -99,9 +102,9 @@ namespace PO_Tool
 			#endregion
 		}
 		
-		
 		void MainForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
+			#region Сохранение конфигурации
 			try
 			{
 				var sw = new StreamWriter(Application.StartupPath + "/PO Tool.cfg");
@@ -133,9 +136,47 @@ namespace PO_Tool
 				sw.Close();
 			}
 			catch {}
+			#endregion
 		}
 		
 		
+		#region Интерфейс
+		void bBrowse_Click(object sender, EventArgs e)
+		{
+			ComboBox tag = (ComboBox)(((Button)sender).Tag);
+			openFileDialog.InitialDirectory = SplitPath(tag.Text)[0];
+			FileDialog fd = (sender == bDestBrowse ? (saveFileDialog as FileDialog) : (openFileDialog as FileDialog));
+			if (fd.ShowDialog() == DialogResult.OK)
+				tag.Text = fd.FileName;
+		}
+		
+		void cbFiles_DragEnter(object sender, DragEventArgs e)
+		{
+			if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy;
+		}
+		
+		void cbFiles_DragDrop(object sender, DragEventArgs e)
+        {
+			((ComboBox)sender).Text = FormatDir(((string[])e.Data.GetData(DataFormats.FileDrop))[0]);
+        }
+		
+		void cbUpdateFile_TextChanged(object sender, EventArgs e)
+		{
+			CheckState cs = (cbUpdateFile.Text.Length == 0 ? CheckState.Indeterminate : CheckState.Checked);
+			foreach (CheckBox c in gUpdate.Controls)
+				if (c.Checked) c.CheckState = cs;
+		}
+		
+		void chUpdate_CheckedChanged(object sender, EventArgs e)
+		{
+			var ch = sender as CheckBox;
+			if (ch.Checked && cbUpdateFile.Text.Length == 0)
+				ch.CheckState = CheckState.Indeterminate;
+		}
+		#endregion
+		
+		#region Процесс обработки
 		void bStart_Click(object sender, EventArgs e)
 		{
 			if (backgroundWorker.IsBusy)
@@ -395,43 +436,9 @@ namespace PO_Tool
 			MessageBox.Show(message, FilesError == 0 ? "Готово" : "Ошибка", MessageBoxButtons.OK, FilesError == 0 ? MessageBoxIcon.Asterisk : MessageBoxIcon.Error);
 			#endregion
 		}
+		#endregion
 		
-		
-		void bBrowse_Click(object sender, EventArgs e)
-		{
-			ComboBox tag = (ComboBox)(((Button)sender).Tag);
-			openFileDialog.InitialDirectory = SplitPath(tag.Text)[0];
-			FileDialog fd = (sender == bDestBrowse ? (saveFileDialog as FileDialog) : (openFileDialog as FileDialog));
-			if (fd.ShowDialog() == DialogResult.OK)
-				tag.Text = fd.FileName;
-		}
-		
-		void cbFiles_DragEnter(object sender, DragEventArgs e)
-		{
-			if (e.Data.GetDataPresent(DataFormats.FileDrop))
-                e.Effect = DragDropEffects.Copy;
-		}
-		
-		void cbFiles_DragDrop(object sender, DragEventArgs e)
-        {
-			((ComboBox)sender).Text = FormatDir(((string[])e.Data.GetData(DataFormats.FileDrop))[0]);
-        }
-		
-		void cbUpdateFile_TextChanged(object sender, EventArgs e)
-		{
-			CheckState cs = (cbUpdateFile.Text.Length == 0 ? CheckState.Indeterminate : CheckState.Checked);
-			foreach (CheckBox c in gUpdate.Controls)
-				if (c.Checked) c.CheckState = cs;
-		}
-		
-		void chUpdate_CheckedChanged(object sender, EventArgs e)
-		{
-			var ch = sender as CheckBox;
-			if (ch.Checked && cbUpdateFile.Text.Length == 0)
-				ch.CheckState = CheckState.Indeterminate;
-		}
-		
-		
+		#region Вспомогательные функции
 		/// <summary> Добавляет текущий текст ComboBox к списку его объектов. </summary>
 		void TextToItem(ComboBox cb)
 		{
@@ -467,7 +474,7 @@ namespace PO_Tool
 		
 		/// <summary> Ищет файлы по указанному пути. </summary>
 		/// <param name="path"> </param>
-		/// <param name="files"> Найденные файлы. </param>
+		/// <param name="files"> Список найденных файлов. </param>
 		/// <param name="filter"> [0] - папка; [1] - файл (маска). </param>
 		/// <returns> true, если запрошен и найден 1 файл; иначе false. </returns>
 		bool GetFiles(string path, out FileInfo[] files, out string[] filter)
@@ -511,7 +518,7 @@ namespace PO_Tool
 							f.SetValue(this, (c as ComboBox).SelectedIndex);
 					}
 		}
-		
+		#endregion
 		
 		class GTFile
 		{
