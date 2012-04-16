@@ -146,8 +146,24 @@ namespace PO_Tool
 		void bBrowse_Click(object sender, EventArgs e)
 		{
 			ComboBox tag = (ComboBox)(((Button)sender).Tag);
-			openFileDialog.InitialDirectory = SplitPath(tag.Text)[0];
+			string path = tag.Text;
 			FileDialog fd = (sender == bDestBrowse ? (saveFileDialog as FileDialog) : (openFileDialog as FileDialog));
+			fd.Title = tag.Tag as string;
+			if (File.Exists(path)) fd.FileName = path;
+			else
+			{
+				// Поиск ближайшей существующей папки
+				while (path.Length > 0 && !Directory.Exists(path))
+				{
+					int ind = Unix ? path.LastIndexOf('/') : path.LastIndexOfAny(new char[]{'\\','/'});
+					path = (ind > 0 ? path.Remove(ind) : String.Empty);
+				}
+				if (path.Length > 0)
+				{
+					fd.FileName = String.Empty;
+					fd.InitialDirectory = path;
+				}
+			}
 			if (fd.ShowDialog() == DialogResult.OK)
 				tag.Text = fd.FileName;
 		}

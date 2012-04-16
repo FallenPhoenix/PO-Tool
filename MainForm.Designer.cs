@@ -308,6 +308,7 @@ namespace PO_Tool
 			this.cbSourceFile.Size = new System.Drawing.Size(557, 21);
 			this.cbSourceFile.Sorted = true;
 			this.cbSourceFile.TabIndex = 1;
+			this.cbSourceFile.Tag = "Исходный путь";
 			this.cbSourceFile.DragDrop += new System.Windows.Forms.DragEventHandler(this.cbFiles_DragDrop);
 			this.cbSourceFile.DragEnter += new System.Windows.Forms.DragEventHandler(this.cbFiles_DragEnter);
 			// 
@@ -323,6 +324,7 @@ namespace PO_Tool
 			this.cbUpdateFile.Size = new System.Drawing.Size(557, 21);
 			this.cbUpdateFile.Sorted = true;
 			this.cbUpdateFile.TabIndex = 3;
+			this.cbUpdateFile.Tag = "Путь обновления";
 			this.cbUpdateFile.DragDrop += new System.Windows.Forms.DragEventHandler(this.cbFiles_DragDrop);
 			this.cbUpdateFile.DragEnter += new System.Windows.Forms.DragEventHandler(this.cbFiles_DragEnter);
 			this.cbUpdateFile.TextChanged += new System.EventHandler(this.cbUpdateFile_TextChanged);
@@ -339,6 +341,7 @@ namespace PO_Tool
 			this.cbDestFile.Size = new System.Drawing.Size(557, 21);
 			this.cbDestFile.Sorted = true;
 			this.cbDestFile.TabIndex = 5;
+			this.cbDestFile.Tag = "Целевой путь";
 			this.cbDestFile.DragDrop += new System.Windows.Forms.DragEventHandler(this.cbFiles_DragDrop);
 			this.cbDestFile.DragEnter += new System.Windows.Forms.DragEventHandler(this.cbFiles_DragEnter);
 			// 
