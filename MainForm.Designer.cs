@@ -403,6 +403,7 @@ namespace PO_Tool
 			this.chRemPrevIDs.Tag = "PrevIDs";
 			this.chRemPrevIDs.Text = "Старые оригиналы";
 			this.chRemPrevIDs.UseVisualStyleBackColor = true;
+			this.chRemPrevIDs.CheckedChanged += new System.EventHandler(this.chRemove_CheckedChanged);
 			// 
 			// chRemAltStrings
 			// 
@@ -414,6 +415,7 @@ namespace PO_Tool
 			this.chRemAltStrings.Tag = "AltMsgStrings";
 			this.chRemAltStrings.Text = "Альтернативы";
 			this.chRemAltStrings.UseVisualStyleBackColor = true;
+			this.chRemAltStrings.CheckedChanged += new System.EventHandler(this.chRemove_CheckedChanged);
 			// 
 			// chRemComments
 			// 
@@ -425,6 +427,7 @@ namespace PO_Tool
 			this.chRemComments.Tag = "Comments";
 			this.chRemComments.Text = "Комментарии";
 			this.chRemComments.UseVisualStyleBackColor = true;
+			this.chRemComments.CheckedChanged += new System.EventHandler(this.chRemove_CheckedChanged);
 			// 
 			// chRemAutoComments
 			// 
@@ -436,6 +439,7 @@ namespace PO_Tool
 			this.chRemAutoComments.Tag = "AutoComments";
 			this.chRemAutoComments.Text = "Автокомментарии";
 			this.chRemAutoComments.UseVisualStyleBackColor = true;
+			this.chRemAutoComments.CheckedChanged += new System.EventHandler(this.chRemove_CheckedChanged);
 			// 
 			// chRemLinks
 			// 
@@ -447,6 +451,7 @@ namespace PO_Tool
 			this.chRemLinks.Tag = "Links";
 			this.chRemLinks.Text = "Ссылки";
 			this.chRemLinks.UseVisualStyleBackColor = true;
+			this.chRemLinks.CheckedChanged += new System.EventHandler(this.chRemove_CheckedChanged);
 			// 
 			// chRemFlags
 			// 
@@ -458,6 +463,7 @@ namespace PO_Tool
 			this.chRemFlags.Tag = "Flags";
 			this.chRemFlags.Text = "Флаги";
 			this.chRemFlags.UseVisualStyleBackColor = true;
+			this.chRemFlags.CheckedChanged += new System.EventHandler(this.chRemove_CheckedChanged);
 			// 
 			// chRemStrings
 			// 
@@ -469,6 +475,7 @@ namespace PO_Tool
 			this.chRemStrings.Tag = "AltMsgStrings";
 			this.chRemStrings.Text = "Перевод";
 			this.chRemStrings.UseVisualStyleBackColor = true;
+			this.chRemStrings.CheckedChanged += new System.EventHandler(this.chRemove_CheckedChanged);
 			// 
 			// chRemRegions
 			// 
@@ -480,6 +487,7 @@ namespace PO_Tool
 			this.chRemRegions.Tag = "Regions";
 			this.chRemRegions.Text = "Разделы";
 			this.chRemRegions.UseVisualStyleBackColor = true;
+			this.chRemRegions.CheckedChanged += new System.EventHandler(this.chRemove_CheckedChanged);
 			// 
 			// progressBar
 			// 

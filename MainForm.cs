@@ -205,6 +205,14 @@ namespace PO_Tool
 			var ch = sender as CheckBox;
 			if (ch.Checked && cbUpdateFile.Text.Length == 0)
 				ch.CheckState = CheckState.Indeterminate;
+			if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+				SetCheckBoxes(gUpdate.Controls, ch.CheckState);
+		}
+		
+		void chRemove_CheckedChanged(object sender, EventArgs e)
+		{
+			if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+				SetCheckBoxes(gRemove.Controls, (sender as CheckBox).CheckState);
 		}
 		#endregion
 		
@@ -575,6 +583,13 @@ namespace PO_Tool
 						else if (c is ComboBox)
 							f.SetValue(this, (c as ComboBox).SelectedIndex);
 					}
+		}
+		
+		/// <summary> Устанавливает группе чекбоксов указанное состояние. </summary>
+		void SetCheckBoxes(Control.ControlCollection controls, CheckState state)
+		{
+			foreach (Control c in controls)
+				if (c is CheckBox) (c as CheckBox).CheckState = state;
 		}
 		#endregion
 		
