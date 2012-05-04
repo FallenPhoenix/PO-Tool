@@ -45,6 +45,8 @@ namespace PO_Tool
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
 			this.gUpdate = new System.Windows.Forms.GroupBox();
+			this.chUpdPrevIDs = new System.Windows.Forms.CheckBox();
+			this.chUpdAltStrings = new System.Windows.Forms.CheckBox();
 			this.chUpdComments = new System.Windows.Forms.CheckBox();
 			this.chUpdAutoComments = new System.Windows.Forms.CheckBox();
 			this.chUpdLinks = new System.Windows.Forms.CheckBox();
@@ -59,6 +61,8 @@ namespace PO_Tool
 			this.cbUpdateFile = new System.Windows.Forms.ComboBox();
 			this.cbDestFile = new System.Windows.Forms.ComboBox();
 			this.gRemove = new System.Windows.Forms.GroupBox();
+			this.chRemPrevIDs = new System.Windows.Forms.CheckBox();
+			this.chRemAltStrings = new System.Windows.Forms.CheckBox();
 			this.chRemComments = new System.Windows.Forms.CheckBox();
 			this.chRemAutoComments = new System.Windows.Forms.CheckBox();
 			this.chRemLinks = new System.Windows.Forms.CheckBox();
@@ -136,7 +140,7 @@ namespace PO_Tool
 			// bStart
 			// 
 			this.bStart.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.bStart.Location = new System.Drawing.Point(263, 355);
+			this.bStart.Location = new System.Drawing.Point(263, 401);
 			this.bStart.Name = "bStart";
 			this.bStart.Size = new System.Drawing.Size(75, 23);
 			this.bStart.TabIndex = 0;
@@ -156,6 +160,8 @@ namespace PO_Tool
 			// 
 			// gUpdate
 			// 
+			this.gUpdate.Controls.Add(this.chUpdPrevIDs);
+			this.gUpdate.Controls.Add(this.chUpdAltStrings);
 			this.gUpdate.Controls.Add(this.chUpdComments);
 			this.gUpdate.Controls.Add(this.chUpdAutoComments);
 			this.gUpdate.Controls.Add(this.chUpdLinks);
@@ -164,18 +170,42 @@ namespace PO_Tool
 			this.gUpdate.Controls.Add(this.chUpdHeader);
 			this.gUpdate.Location = new System.Drawing.Point(12, 170);
 			this.gUpdate.Name = "gUpdate";
-			this.gUpdate.Size = new System.Drawing.Size(165, 160);
+			this.gUpdate.Size = new System.Drawing.Size(165, 206);
 			this.gUpdate.TabIndex = 7;
 			this.gUpdate.TabStop = false;
 			this.gUpdate.Text = "Обновление";
 			// 
+			// chUpdPrevIDs
+			// 
+			this.chUpdPrevIDs.AutoSize = true;
+			this.chUpdPrevIDs.Location = new System.Drawing.Point(6, 134);
+			this.chUpdPrevIDs.Name = "chUpdPrevIDs";
+			this.chUpdPrevIDs.Size = new System.Drawing.Size(122, 17);
+			this.chUpdPrevIDs.TabIndex = 5;
+			this.chUpdPrevIDs.Tag = "PrevIDs";
+			this.chUpdPrevIDs.Text = "Старые оригиналы";
+			this.chUpdPrevIDs.UseVisualStyleBackColor = true;
+			this.chUpdPrevIDs.CheckedChanged += new System.EventHandler(this.chUpdate_CheckedChanged);
+			// 
+			// chUpdAltStrings
+			// 
+			this.chUpdAltStrings.AutoSize = true;
+			this.chUpdAltStrings.Location = new System.Drawing.Point(6, 65);
+			this.chUpdAltStrings.Name = "chUpdAltStrings";
+			this.chUpdAltStrings.Size = new System.Drawing.Size(99, 17);
+			this.chUpdAltStrings.TabIndex = 2;
+			this.chUpdAltStrings.Tag = "AltMsgStrings";
+			this.chUpdAltStrings.Text = "Альтернативы";
+			this.chUpdAltStrings.UseVisualStyleBackColor = true;
+			this.chUpdAltStrings.CheckedChanged += new System.EventHandler(this.chUpdate_CheckedChanged);
+			// 
 			// chUpdComments
 			// 
 			this.chUpdComments.AutoSize = true;
-			this.chUpdComments.Location = new System.Drawing.Point(6, 65);
+			this.chUpdComments.Location = new System.Drawing.Point(6, 88);
 			this.chUpdComments.Name = "chUpdComments";
 			this.chUpdComments.Size = new System.Drawing.Size(96, 17);
-			this.chUpdComments.TabIndex = 2;
+			this.chUpdComments.TabIndex = 3;
 			this.chUpdComments.Tag = "Comments";
 			this.chUpdComments.Text = "Комментарии";
 			this.chUpdComments.UseVisualStyleBackColor = true;
@@ -184,10 +214,10 @@ namespace PO_Tool
 			// chUpdAutoComments
 			// 
 			this.chUpdAutoComments.AutoSize = true;
-			this.chUpdAutoComments.Location = new System.Drawing.Point(6, 88);
+			this.chUpdAutoComments.Location = new System.Drawing.Point(6, 111);
 			this.chUpdAutoComments.Name = "chUpdAutoComments";
 			this.chUpdAutoComments.Size = new System.Drawing.Size(119, 17);
-			this.chUpdAutoComments.TabIndex = 3;
+			this.chUpdAutoComments.TabIndex = 4;
 			this.chUpdAutoComments.Tag = "AutoComments";
 			this.chUpdAutoComments.Text = "Автокомментарии";
 			this.chUpdAutoComments.UseVisualStyleBackColor = true;
@@ -196,10 +226,10 @@ namespace PO_Tool
 			// chUpdLinks
 			// 
 			this.chUpdLinks.AutoSize = true;
-			this.chUpdLinks.Location = new System.Drawing.Point(6, 111);
+			this.chUpdLinks.Location = new System.Drawing.Point(6, 157);
 			this.chUpdLinks.Name = "chUpdLinks";
 			this.chUpdLinks.Size = new System.Drawing.Size(65, 17);
-			this.chUpdLinks.TabIndex = 4;
+			this.chUpdLinks.TabIndex = 6;
 			this.chUpdLinks.Tag = "Links";
 			this.chUpdLinks.Text = "Ссылки";
 			this.chUpdLinks.UseVisualStyleBackColor = true;
@@ -208,10 +238,10 @@ namespace PO_Tool
 			// chUpdFlags
 			// 
 			this.chUpdFlags.AutoSize = true;
-			this.chUpdFlags.Location = new System.Drawing.Point(6, 134);
+			this.chUpdFlags.Location = new System.Drawing.Point(6, 180);
 			this.chUpdFlags.Name = "chUpdFlags";
 			this.chUpdFlags.Size = new System.Drawing.Size(60, 17);
-			this.chUpdFlags.TabIndex = 5;
+			this.chUpdFlags.TabIndex = 7;
 			this.chUpdFlags.Tag = "Flags";
 			this.chUpdFlags.Text = "Флаги";
 			this.chUpdFlags.UseVisualStyleBackColor = true;
@@ -248,7 +278,7 @@ namespace PO_Tool
 			this.gFormat.Controls.Add(this.cbFormatLinks);
 			this.gFormat.Location = new System.Drawing.Point(344, 170);
 			this.gFormat.Name = "gFormat";
-			this.gFormat.Size = new System.Drawing.Size(256, 160);
+			this.gFormat.Size = new System.Drawing.Size(256, 206);
 			this.gFormat.TabIndex = 9;
 			this.gFormat.TabStop = false;
 			this.gFormat.Text = "Форматирование";
@@ -262,7 +292,7 @@ namespace PO_Tool
 									"Слить строки перевода",
 									"Разделить строки перевода по \"\\n\"",
 									"Разделить переводы по \"\\n\" (сокращ.)"});
-			this.cbFormatStrings.Location = new System.Drawing.Point(6, 69);
+			this.cbFormatStrings.Location = new System.Drawing.Point(6, 92);
 			this.cbFormatStrings.Name = "cbFormatStrings";
 			this.cbFormatStrings.Size = new System.Drawing.Size(244, 21);
 			this.cbFormatStrings.TabIndex = 1;
@@ -277,7 +307,7 @@ namespace PO_Tool
 									"Слить оригинальные строки",
 									"Разделить оригинальные строки по \"\\n\"",
 									"Разделить оригиналы по \"\\n\" (сокращ.)"});
-			this.cbFormatIDs.Location = new System.Drawing.Point(6, 42);
+			this.cbFormatIDs.Location = new System.Drawing.Point(6, 65);
 			this.cbFormatIDs.Name = "cbFormatIDs";
 			this.cbFormatIDs.Size = new System.Drawing.Size(244, 21);
 			this.cbFormatIDs.TabIndex = 0;
@@ -291,7 +321,7 @@ namespace PO_Tool
 									"Не трогать ссылки на исходник",
 									"Слить ссылки на исходник",
 									"Разделить ссылки на исходник"});
-			this.cbFormatLinks.Location = new System.Drawing.Point(6, 96);
+			this.cbFormatLinks.Location = new System.Drawing.Point(6, 119);
 			this.cbFormatLinks.Name = "cbFormatLinks";
 			this.cbFormatLinks.Size = new System.Drawing.Size(244, 21);
 			this.cbFormatLinks.TabIndex = 2;
@@ -348,6 +378,8 @@ namespace PO_Tool
 			// 
 			// gRemove
 			// 
+			this.gRemove.Controls.Add(this.chRemPrevIDs);
+			this.gRemove.Controls.Add(this.chRemAltStrings);
 			this.gRemove.Controls.Add(this.chRemComments);
 			this.gRemove.Controls.Add(this.chRemAutoComments);
 			this.gRemove.Controls.Add(this.chRemLinks);
@@ -356,18 +388,40 @@ namespace PO_Tool
 			this.gRemove.Controls.Add(this.chRemRegions);
 			this.gRemove.Location = new System.Drawing.Point(183, 170);
 			this.gRemove.Name = "gRemove";
-			this.gRemove.Size = new System.Drawing.Size(155, 160);
+			this.gRemove.Size = new System.Drawing.Size(155, 206);
 			this.gRemove.TabIndex = 8;
 			this.gRemove.TabStop = false;
 			this.gRemove.Text = "Удаление";
 			// 
+			// chRemPrevIDs
+			// 
+			this.chRemPrevIDs.AutoSize = true;
+			this.chRemPrevIDs.Location = new System.Drawing.Point(6, 134);
+			this.chRemPrevIDs.Name = "chRemPrevIDs";
+			this.chRemPrevIDs.Size = new System.Drawing.Size(122, 17);
+			this.chRemPrevIDs.TabIndex = 5;
+			this.chRemPrevIDs.Tag = "PrevIDs";
+			this.chRemPrevIDs.Text = "Старые оригиналы";
+			this.chRemPrevIDs.UseVisualStyleBackColor = true;
+			// 
+			// chRemAltStrings
+			// 
+			this.chRemAltStrings.AutoSize = true;
+			this.chRemAltStrings.Location = new System.Drawing.Point(6, 42);
+			this.chRemAltStrings.Name = "chRemAltStrings";
+			this.chRemAltStrings.Size = new System.Drawing.Size(99, 17);
+			this.chRemAltStrings.TabIndex = 1;
+			this.chRemAltStrings.Tag = "AltMsgStrings";
+			this.chRemAltStrings.Text = "Альтернативы";
+			this.chRemAltStrings.UseVisualStyleBackColor = true;
+			// 
 			// chRemComments
 			// 
 			this.chRemComments.AutoSize = true;
-			this.chRemComments.Location = new System.Drawing.Point(6, 65);
+			this.chRemComments.Location = new System.Drawing.Point(6, 88);
 			this.chRemComments.Name = "chRemComments";
 			this.chRemComments.Size = new System.Drawing.Size(96, 17);
-			this.chRemComments.TabIndex = 2;
+			this.chRemComments.TabIndex = 3;
 			this.chRemComments.Tag = "Comments";
 			this.chRemComments.Text = "Комментарии";
 			this.chRemComments.UseVisualStyleBackColor = true;
@@ -375,10 +429,10 @@ namespace PO_Tool
 			// chRemAutoComments
 			// 
 			this.chRemAutoComments.AutoSize = true;
-			this.chRemAutoComments.Location = new System.Drawing.Point(6, 88);
+			this.chRemAutoComments.Location = new System.Drawing.Point(6, 111);
 			this.chRemAutoComments.Name = "chRemAutoComments";
 			this.chRemAutoComments.Size = new System.Drawing.Size(119, 17);
-			this.chRemAutoComments.TabIndex = 3;
+			this.chRemAutoComments.TabIndex = 4;
 			this.chRemAutoComments.Tag = "AutoComments";
 			this.chRemAutoComments.Text = "Автокомментарии";
 			this.chRemAutoComments.UseVisualStyleBackColor = true;
@@ -386,10 +440,10 @@ namespace PO_Tool
 			// chRemLinks
 			// 
 			this.chRemLinks.AutoSize = true;
-			this.chRemLinks.Location = new System.Drawing.Point(6, 111);
+			this.chRemLinks.Location = new System.Drawing.Point(6, 157);
 			this.chRemLinks.Name = "chRemLinks";
 			this.chRemLinks.Size = new System.Drawing.Size(65, 17);
-			this.chRemLinks.TabIndex = 4;
+			this.chRemLinks.TabIndex = 6;
 			this.chRemLinks.Tag = "Links";
 			this.chRemLinks.Text = "Ссылки";
 			this.chRemLinks.UseVisualStyleBackColor = true;
@@ -397,10 +451,10 @@ namespace PO_Tool
 			// chRemFlags
 			// 
 			this.chRemFlags.AutoSize = true;
-			this.chRemFlags.Location = new System.Drawing.Point(6, 134);
+			this.chRemFlags.Location = new System.Drawing.Point(6, 180);
 			this.chRemFlags.Name = "chRemFlags";
 			this.chRemFlags.Size = new System.Drawing.Size(60, 17);
-			this.chRemFlags.TabIndex = 5;
+			this.chRemFlags.TabIndex = 7;
 			this.chRemFlags.Tag = "Flags";
 			this.chRemFlags.Text = "Флаги";
 			this.chRemFlags.UseVisualStyleBackColor = true;
@@ -412,17 +466,17 @@ namespace PO_Tool
 			this.chRemStrings.Name = "chRemStrings";
 			this.chRemStrings.Size = new System.Drawing.Size(70, 17);
 			this.chRemStrings.TabIndex = 0;
-			this.chRemStrings.Tag = "MsgStrings";
+			this.chRemStrings.Tag = "AltMsgStrings";
 			this.chRemStrings.Text = "Перевод";
 			this.chRemStrings.UseVisualStyleBackColor = true;
 			// 
 			// chRemRegions
 			// 
 			this.chRemRegions.AutoSize = true;
-			this.chRemRegions.Location = new System.Drawing.Point(6, 42);
+			this.chRemRegions.Location = new System.Drawing.Point(6, 65);
 			this.chRemRegions.Name = "chRemRegions";
 			this.chRemRegions.Size = new System.Drawing.Size(71, 17);
-			this.chRemRegions.TabIndex = 1;
+			this.chRemRegions.TabIndex = 2;
 			this.chRemRegions.Tag = "Regions";
 			this.chRemRegions.Text = "Разделы";
 			this.chRemRegions.UseVisualStyleBackColor = true;
@@ -430,7 +484,7 @@ namespace PO_Tool
 			// progressBar
 			// 
 			this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.progressBar.Location = new System.Drawing.Point(12, 365);
+			this.progressBar.Location = new System.Drawing.Point(12, 411);
 			this.progressBar.Name = "progressBar";
 			this.progressBar.Size = new System.Drawing.Size(100, 13);
 			this.progressBar.TabIndex = 999;
@@ -447,7 +501,7 @@ namespace PO_Tool
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(612, 390);
+			this.ClientSize = new System.Drawing.Size(612, 436);
 			this.Controls.Add(this.progressBar);
 			this.Controls.Add(this.gRemove);
 			this.Controls.Add(this.cbDestFile);
@@ -477,6 +531,10 @@ namespace PO_Tool
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.CheckBox chRemPrevIDs;
+		private System.Windows.Forms.CheckBox chUpdPrevIDs;
+		private System.Windows.Forms.CheckBox chUpdAltStrings;
+		private System.Windows.Forms.CheckBox chRemAltStrings;
 		private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
 		private System.Windows.Forms.ComboBox cbFormatStrings;
 		private System.ComponentModel.BackgroundWorker backgroundWorker;

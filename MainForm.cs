@@ -29,8 +29,8 @@ namespace PO_Tool
 		bool Stop;
 		
 		// Опции
-		public bool UpdHeader, UpdStrings, UpdComments, UpdAutoComments, UpdLinks, UpdFlags;
-		public bool RemStrings, RemRegions, RemComments, RemAutoComments, RemLinks, RemFlags;
+		public bool UpdHeader, UpdPrevIDs, UpdStrings, UpdAltStrings, UpdComments, UpdAutoComments, UpdLinks, UpdFlags;
+		public bool RemPrevIDs, RemStrings, RemAltStrings, RemRegions, RemComments, RemAutoComments, RemLinks, RemFlags;
 		public int FormatIDs, FormatStrings, FormatLinks;
 		
 		// Коды ошибок (EG - глобальные, EF - отдельного файла)
@@ -330,8 +330,8 @@ namespace PO_Tool
 					#endregion
 					
 					#region Применение изменений
-					bool wri_strings = !RemStrings, wri_com = !RemComments, wri_autocom = !RemAutoComments, wri_links = !RemLinks, wri_flags = !RemFlags, wri_prev = true, wri_alt = true;
-					bool upd_header = (upd && UpdHeader), upd_strings = (upd && UpdStrings), upd_com = (upd && UpdComments), upd_autocom = (upd && UpdAutoComments), upd_links = (upd && UpdLinks), upd_flags = (upd && UpdFlags);
+					bool wri_prev = !RemPrevIDs, wri_strings = !RemStrings, wri_alt = !RemAltStrings, wri_com = !RemComments, wri_autocom = !RemAutoComments, wri_links = !RemLinks, wri_flags = !RemFlags;
+					bool upd_header = (upd && UpdHeader), upd_prev = (upd && UpdPrevIDs), upd_strings = (upd && UpdStrings), upd_alt = (upd && UpdAltStrings), upd_com = (upd && UpdComments), upd_autocom = (upd && UpdAutoComments), upd_links = (upd && UpdLinks), upd_flags = (upd && UpdFlags);
 					if (FilesError == 0)
 					{
 						try
@@ -349,7 +349,7 @@ namespace PO_Tool
 								if (wri_autocom)  block.AddRange(((upd_autocom && iupd >= 0 ? bupd : bsrc) as GettextBlock).AutoComments);
 								if (wri_links)  block.AddRange(((upd_links && iupd >= 0 ? bupd : bsrc) as GettextBlock).FormatLinks(FormatLinks));
 								if (wri_flags)  block.AddRange(((upd_flags && iupd >= 0 ? bupd : bsrc) as GettextBlock).Flags);
-								if (wri_prev)	block.AddRange(bsrc.PrevIDs);
+								if (wri_prev)	block.AddRange(((upd_prev && iupd >= 0 ? bupd : bsrc) as GettextBlock).PrevIDs);
 								block.AddRange(bsrc.FormatMsgID(FormatIDs));
 								if (bsrc.IDPlural != null)
 									block.AddRange(bsrc.FormatMsgIDPlural(FormatIDs));
@@ -371,7 +371,7 @@ namespace PO_Tool
 											block.Add("msgstr \"[" + i + "]\"");
 									}
 								}
-								if (wri_alt) block.AddRange(bsrc.AltStrings);
+								if (wri_alt)  block.AddRange(((upd_alt && iupd >= 0 ? bupd : bsrc) as GettextBlock).AltStrings);
 								
 								data.RemoveRange(bsrc.StartLine, bsrc.LinesCount);
 								data.InsertRange(bsrc.StartLine, block);
