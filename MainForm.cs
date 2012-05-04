@@ -50,6 +50,9 @@ namespace PO_Tool
 			bSourceBrowse.Tag = cbSourceFile;
 			bUpdateBrowse.Tag = cbUpdateFile;
 			bDestBrowse.Tag = cbDestFile;
+			cbSourceFile.Tag = new[]{"Исходный путь", "Укажите папку, в которой находятся исходные файлы."};
+			cbUpdateFile.Tag = new[]{"Путь обновления", "Укажите папку, в которой находятся файлы для обновления."};
+			cbDestFile.Tag = new[]{"Целевой путь", "Укажите папку, в которую программа запишет обработанные файлы."};
 			
 			#region Загрузка конфигурации
 			var config = Application.StartupPath + "/PO Tool.cfg";
@@ -146,26 +149,37 @@ namespace PO_Tool
 		void bBrowse_Click(object sender, EventArgs e)
 		{
 			ComboBox tag = (ComboBox)(((Button)sender).Tag);
-			string path = tag.Text;
-			FileDialog fd = (sender == bDestBrowse ? (saveFileDialog as FileDialog) : (openFileDialog as FileDialog));
-			fd.Title = tag.Tag as string;
-			if (File.Exists(path)) fd.FileName = path;
+			
+			// Поиск папки
+			string dir = tag.Text;
+			while (dir.Length > 0 && !Directory.Exists(dir))
+			{
+				int ind = Unix ? dir.LastIndexOf('/') : dir.LastIndexOfAny(new char[]{'\\','/'});
+				dir = (ind > 0 ? dir.Remove(ind) : String.Empty);
+			}
+			
+			// Обзор папок
+			if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+			{
+				folderBrowserDialog.Description = (tag.Tag as string[])[1];
+				if (dir.Length > 0) folderBrowserDialog.SelectedPath = dir;
+				if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+					tag.Text = FormatDir(folderBrowserDialog.SelectedPath);
+			}
+			// Обзор файлов
 			else
 			{
-				// Поиск ближайшей существующей папки
-				while (path.Length > 0 && !Directory.Exists(path))
-				{
-					int ind = Unix ? path.LastIndexOf('/') : path.LastIndexOfAny(new char[]{'\\','/'});
-					path = (ind > 0 ? path.Remove(ind) : String.Empty);
-				}
-				if (path.Length > 0)
+				FileDialog fd = (sender == bDestBrowse ? (saveFileDialog as FileDialog) : (openFileDialog as FileDialog));
+				fd.Title = (tag.Tag as string[])[0];
+				if (File.Exists(tag.Text)) fd.FileName = tag.Text;
+				else if (dir.Length > 0)
 				{
 					fd.FileName = String.Empty;
-					fd.InitialDirectory = path;
+					fd.InitialDirectory = dir;
 				}
+				if (fd.ShowDialog() == DialogResult.OK)
+					tag.Text = fd.FileName;
 			}
-			if (fd.ShowDialog() == DialogResult.OK)
-				tag.Text = fd.FileName;
 		}
 		
 		void cbFiles_DragEnter(object sender, DragEventArgs e)

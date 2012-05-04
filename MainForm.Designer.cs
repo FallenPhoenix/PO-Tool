@@ -67,6 +67,7 @@ namespace PO_Tool
 			this.chRemRegions = new System.Windows.Forms.CheckBox();
 			this.progressBar = new System.Windows.Forms.ProgressBar();
 			this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
+			this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
 			this.gUpdate.SuspendLayout();
 			this.gFormat.SuspendLayout();
 			this.gRemove.SuspendLayout();
@@ -308,7 +309,7 @@ namespace PO_Tool
 			this.cbSourceFile.Size = new System.Drawing.Size(557, 21);
 			this.cbSourceFile.Sorted = true;
 			this.cbSourceFile.TabIndex = 1;
-			this.cbSourceFile.Tag = "Исходный путь";
+			this.cbSourceFile.Tag = "";
 			this.cbSourceFile.DragDrop += new System.Windows.Forms.DragEventHandler(this.cbFiles_DragDrop);
 			this.cbSourceFile.DragEnter += new System.Windows.Forms.DragEventHandler(this.cbFiles_DragEnter);
 			// 
@@ -324,7 +325,7 @@ namespace PO_Tool
 			this.cbUpdateFile.Size = new System.Drawing.Size(557, 21);
 			this.cbUpdateFile.Sorted = true;
 			this.cbUpdateFile.TabIndex = 3;
-			this.cbUpdateFile.Tag = "Путь обновления";
+			this.cbUpdateFile.Tag = "";
 			this.cbUpdateFile.DragDrop += new System.Windows.Forms.DragEventHandler(this.cbFiles_DragDrop);
 			this.cbUpdateFile.DragEnter += new System.Windows.Forms.DragEventHandler(this.cbFiles_DragEnter);
 			this.cbUpdateFile.TextChanged += new System.EventHandler(this.cbUpdateFile_TextChanged);
@@ -341,7 +342,7 @@ namespace PO_Tool
 			this.cbDestFile.Size = new System.Drawing.Size(557, 21);
 			this.cbDestFile.Sorted = true;
 			this.cbDestFile.TabIndex = 5;
-			this.cbDestFile.Tag = "Целевой путь";
+			this.cbDestFile.Tag = "";
 			this.cbDestFile.DragDrop += new System.Windows.Forms.DragEventHandler(this.cbFiles_DragDrop);
 			this.cbDestFile.DragEnter += new System.Windows.Forms.DragEventHandler(this.cbFiles_DragEnter);
 			// 
@@ -476,6 +477,7 @@ namespace PO_Tool
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
 		private System.Windows.Forms.ComboBox cbFormatStrings;
 		private System.ComponentModel.BackgroundWorker backgroundWorker;
 		private System.Windows.Forms.ProgressBar progressBar;
