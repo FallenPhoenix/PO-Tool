@@ -80,7 +80,7 @@ namespace PO_Tool
 									block.Links.Add(str.Substring(2));
 								else if (str.StartsWith("#."))
 									block.AutoComments.Add(str);
-								else if (str.StartsWith("#|"))
+								else if (str.StartsWith("#|"))  // TODO: Сделать поддержку форматирования предыдущих ID
 									block.PrevIDs.Add(str);
 								else if (str.StartsWith("#*"))
 									block.AltStrings.Add(str);
@@ -213,7 +213,7 @@ namespace PO_Tool
 		public List<int> ID_Breaks, IDPlural_Breaks, Str_Breaks;
 		public List<int>[] StrInd_Breaks;
 		
-		
+		// FIXME: При отсутствии ссылок их слияние добавляет пустую #:
 		public string[] FormatLinks(int format)
 		{
 			string[] result;

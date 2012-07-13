@@ -16,6 +16,8 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Reflection;
 
+//TODO: Сделать опцию для чистки от ненужных комментариев типа "#. #-#-#-#-#  wesnoth.wml.pot (PACKAGE VERSION)  #-#-#-#-#"
+
 namespace PO_Tool
 {
 	public partial class MainForm : Form
@@ -34,6 +36,7 @@ namespace PO_Tool
 		public int FormatIDs, FormatStrings, FormatLinks;
 		
 		// Коды ошибок (EG - глобальные, EF - отдельного файла)
+		// NOTE: Возможно, это удобно будет переделать на исключения
 		const int EG_SrcEmpty = 1, EG_SrcBad = 2, EG_SrcNotExist = 3, EG_UpdBad = 4, EG_TrgEmpty = 5, EG_TrgBad = 6, EG_1Src_ManyUpd = 7, EG_1Src_ManyTrg = 8;
 		const int EF_ParserSrc = 10, EF_ParserUpd = 11, EF_Process = 12, EF_Write = 13, EF_Canceled = 14;
 		#endregion
@@ -217,6 +220,7 @@ namespace PO_Tool
 		#endregion
 		
 		#region Процесс обработки
+		//TODO: Непомешало бы это дело в отдельный класс вынести для консольного режима (а возможно и GTK-версии).
 		void bStart_Click(object sender, EventArgs e)
 		{
 			if (backgroundWorker.IsBusy)
@@ -507,6 +511,8 @@ namespace PO_Tool
 		#endregion
 		
 		#region Вспомогательные функции
+		//TODO: Тут много что можно заменить стандартными функциями Path.
+		
 		/// <summary> Добавляет текущий текст ComboBox к списку его объектов. </summary>
 		void TextToItem(ComboBox cb)
 		{
@@ -563,12 +569,14 @@ namespace PO_Tool
 		/// <summary> Возвращает имя файла без расширения. </summary>
 		string GetName(FileInfo fi)
 		{
+			//NOTE: Это можно заменить на метод Path.GetFileNameWithoutExtension(string path)
 			return fi.Name.Remove(fi.Name.Length - fi.Extension.Length);
 		}
 		
 		/// <summary> Возвращает расширение файла. </summary>
 		string GetExt(string filename)
 		{
+			//NOTE: Это можно заменить на метод Path.GetExtension(string path)
 			int ind = filename.LastIndexOf('.');
 			return (ind < 0 ? "" : filename.Substring(ind));
 		}
