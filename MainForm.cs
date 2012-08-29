@@ -234,22 +234,24 @@ namespace PO_Tool
 			Files = new List<GTFile>();
 			
 			#region Определение таблицы файлов
+			// Если целевой путь не указан, то изменяются исходные файлы.
 			if (cbSourceFile.Text.Length == 0) FilesError = EG_SrcEmpty;
-			else if (cbDestFile.Text.Length == 0) FilesError = EG_TrgEmpty;
-			if (FilesError == 0)
+			else
 			{
 				FileInfo[] src_files, upd_files;
 				string[] src_filter, upd_filter;
 				bool src_solo = GetFiles(cbSourceFile.Text, out src_files, out src_filter);
 				bool upd_solo = GetFiles(cbUpdateFile.Text, out upd_files, out upd_filter);
+				string dest = (cbDestFile.Text.Length == 0 ? cbSourceFile : cbDestFile).Text;
 				if (src_files.Length == 0) FilesError = (src_solo ? EG_SrcBad : EG_SrcNotExist);
 				else if (cbUpdateFile.Text.Length > 0 && upd_files.Length == 0) FilesError = EG_UpdBad;
 				else if (src_solo && upd_filter[1].Contains("*")) FilesError = EG_1Src_ManyUpd;
-				else if (src_solo && cbDestFile.Text.Contains("*")) FilesError = EG_1Src_ManyTrg;
+				else if (src_solo && dest.Contains("*")) FilesError = EG_1Src_ManyTrg;
 				else
 				{
 					//TODO: Сделать проверку на создаваемый файл/папку.
-					var dest_filter = SplitPath(cbDestFile.Text);
+					var dest_filter = SplitPath(dest);
+					if (dest_filter[0].Length == 0) dest_filter[0] = src_filter[0];
 					var dest_ext = GetExt(dest_filter[1]);
 					bool keep_ext = dest_ext.Contains("*");
 					foreach (FileInfo fs in src_files)
@@ -266,7 +268,7 @@ namespace PO_Tool
 									break;
 								}
 						}
-						Files.Add(new GTFile(fs.FullName, upd_file, (src_solo ? cbDestFile.Text : dest_filter[0] + "/" + (keep_ext ? fs.Name : GetName(fs) + dest_ext))));
+						Files.Add(new GTFile(fs.FullName, upd_file, (src_solo ? dest : dest_filter[0] + "/" + (keep_ext ? fs.Name : GetName(fs) + dest_ext))));
 					}
 					if (Files.Count == 0) FilesError = EG_SrcNotExist;
 				}
