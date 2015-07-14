@@ -1,10 +1,9 @@
-﻿/*
- * Created with SharpDevelop 3.
- * User: F. Phoenix
- * Date: 08.01.2012
- * Time: 10:29
- * 
- */
+﻿/****************************\
+ * Создано в SharpDevelop.
+ * Автор: F.Phoenix
+ * Дата: 08.01.2012 10:29
+\****************************/
+
 using System;
 using System.Windows.Forms;
 

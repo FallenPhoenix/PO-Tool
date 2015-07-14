@@ -1,10 +1,9 @@
-﻿/*
- * Created with SharpDevelop 3.
- * User: F. Phoenix
- * Date: 08.01.2012
- * Time: 11:02
- * 
- */
+﻿/****************************\
+ * Создано в SharpDevelop.
+ * Автор: F.Phoenix
+ * Дата: 08.01.2012 11:02
+\****************************/
+
 using System;
 using System.IO;
 using System.Collections.Generic;
