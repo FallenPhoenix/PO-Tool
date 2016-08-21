@@ -35,7 +35,7 @@ namespace PO_Tool
 		
 		// Коды ошибок (EG - глобальные, EF - отдельного файла)
 		// NOTE: Возможно, это удобно будет переделать на исключения
-		const int EG_SrcEmpty = 1, EG_SrcBad = 2, EG_SrcNotExist = 3, EG_UpdBad = 4, EG_TrgEmpty = 5, EG_TrgBad = 6, EG_1Src_ManyUpd = 7, EG_1Src_ManyTrg = 8;
+		const int EG_SrcEmpty = 1, EG_SrcBad = 2, EG_SrcNotExist = 3, EG_UpdBad = 4, EG_TrgEmpty = 5, EG_TrgBad = 6;
 		const int EF_ParserSrc = 10, EF_ParserUpd = 11, EF_Process = 12, EF_Write = 13, EF_Canceled = 14;
 		#endregion
 		
@@ -237,19 +237,32 @@ namespace PO_Tool
 			
 			#region Определение таблицы файлов
 			// Если целевой путь не указан, то изменяются исходные файлы.
+			// При нескольких исходных файлах (маска) и единственном файле обновления (точное имя) они все обновляются из него.
+			// Если исходый файл задан точно, а файлы обновления или вывода по маске, то они используют его имя.
 			if (cbSourceFile.Text.Length == 0) FilesError = EG_SrcEmpty;
 			else
 			{
 				FileInfo[] src_files, upd_files;
 				string[] src_filter, upd_filter;
+				bool update = (cbUpdateFile.Text.Length > 0);
 				bool src_solo = GetFiles(cbSourceFile.Text, out src_files, out src_filter);
 				bool upd_solo = GetFiles(cbUpdateFile.Text, out upd_files, out upd_filter);
 				string dest = (cbDestFile.Text.Length == 0 ? cbSourceFile : cbDestFile).Text;
+				
 				if (src_files.Length == 0) FilesError = (src_solo ? EG_SrcBad : EG_SrcNotExist);
-				else if (cbUpdateFile.Text.Length > 0 && upd_files.Length == 0) FilesError = EG_UpdBad;
-				else if (src_solo && upd_filter[1].Contains("*")) FilesError = EG_1Src_ManyUpd;
-				else if (src_solo && dest.Contains("*")) FilesError = EG_1Src_ManyTrg;
-				else
+				else if (src_solo)
+				{
+					if (update)
+					{
+						string update_file = cbUpdateFile.Text;
+						if (GetNameFromSource(ref update_file, src_filter[1]))
+							upd_solo = GetFiles(update_file, out upd_files, out upd_filter);
+					}
+					GetNameFromSource(ref dest, src_filter[1]);
+				}
+				if (update && upd_files.Length == 0) FilesError = EG_UpdBad;
+
+				if (FilesError == 0)
 				{
 					//TODO: Сделать проверку на создаваемый файл/папку.
 					var dest_filter = SplitPath(dest);
@@ -259,16 +272,19 @@ namespace PO_Tool
 					foreach (FileInfo fs in src_files)
 					{
 						string upd_file = string.Empty;
-						if (upd_solo) upd_file = upd_files[0].FullName;
-						else
+						if (update)
 						{
-							bool any_ext = (src_filter != upd_filter && !GetExt(src_filter[1]).Contains("*") && !GetExt(upd_filter[1]).Contains("*"));
-							foreach (FileInfo fu in upd_files)
-								if ((any_ext && GetName(fs) == GetName(fu)) || fs.Name == fu.Name)
-								{
-									upd_file = fu.FullName;
-									break;
-								}
+							if (upd_solo) upd_file = upd_files[0].FullName;
+							else
+							{
+								bool any_ext = (src_filter != upd_filter && !GetExt(src_filter[1]).Contains("*") && !GetExt(upd_filter[1]).Contains("*"));
+								foreach (FileInfo fu in upd_files)
+									if ((any_ext && GetName(fs) == GetName(fu)) || fs.Name == fu.Name)
+									{
+										upd_file = fu.FullName;
+										break;
+									}
+							}
 						}
 						Files.Add(new GTFile(fs.FullName, upd_file, (src_solo ? dest : dest_filter[0] + "/" + (keep_ext ? fs.Name : GetName(fs) + dest_ext))));
 					}
@@ -474,8 +490,6 @@ namespace PO_Tool
 				case EG_UpdBad: message = "Неверно указан файл обновления!"; break;
 				case EG_TrgEmpty: message = "Не указан целевой файл!"; break;
 				case EG_TrgBad: message = "Неверно указан целевой файл!"; break;
-				case EG_1Src_ManyUpd: message = "Нельзя использовать несколько файлов обновлений для единственного исходного!"; break;
-				case EG_1Src_ManyTrg: message = "Нельзя использовать несколько целевых файлов для единственного исходного!"; break;
 				default:
 					bool updated = false;
 					if (FilesUpdated)
@@ -548,7 +562,7 @@ namespace PO_Tool
 		/// <param name="path"> </param>
 		/// <param name="files"> Список найденных файлов. </param>
 		/// <param name="filter"> [0] - папка; [1] - файл (маска). </param>
-		/// <returns> true, если запрошен и найден 1 файл; иначе false. </returns>
+		/// <returns> true, если запрошен и найден 1 файл (без маски); иначе false. </returns>
 		bool GetFiles(string path, out FileInfo[] files, out string[] filter)
 		{
 			bool simple = File.Exists(path);
@@ -579,6 +593,19 @@ namespace PO_Tool
 			return (ind < 0 ? "" : filename.Substring(ind));
 		}
 
+		/// <summary> Подставляет в path имя и/или расширение исходного файла вместо звездочки. </summary>
+		/// <returns>true, если произошка подстановка.</returns>
+		bool GetNameFromSource(ref string path, string source_filename)
+		{
+			if (!path.Contains("*")) return false;
+			
+			string path_name = Path.GetFileNameWithoutExtension(path), path_ext = Path.GetExtension(path);
+			if (path_name == "*") path_name = Path.GetFileNameWithoutExtension(source_filename);
+			if (path_ext == ".*") path_ext = Path.GetExtension(source_filename);
+			path = Path.Combine(Path.GetDirectoryName(path), path_name + path_ext);
+			return true;
+		}
+		
 		/// <summary> Сохраняет состояние контролов в соответствующих переменных. </summary>
 		void SetFields(Control.ControlCollection controls, FieldInfo[] fields)
 		{
