@@ -378,6 +378,9 @@ namespace PO_Tool
 								if (wri_links)  block.AddRange(((upd_links && iupd >= 0 ? bupd : bsrc) as GettextBlock).FormatLinks(FormatLinks));
 								if (wri_flags)  block.AddRange(((upd_flags && iupd >= 0 ? bupd : bsrc) as GettextBlock).Flags);
 								if (wri_prev)	block.AddRange(((upd_prev && iupd >= 0 ? bupd : bsrc) as GettextBlock).PrevIDs);
+								// TODO: Добавить обновление контекста
+								if (!string.IsNullOrEmpty(bsrc.Context))
+									block.Add(bsrc.FormatContext());
 								block.AddRange(bsrc.FormatMsgID(FormatIDs));
 								if (bsrc.IDPlural != null)
 									block.AddRange(bsrc.FormatMsgIDPlural(FormatIDs));

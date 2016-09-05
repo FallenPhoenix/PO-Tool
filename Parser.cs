@@ -39,7 +39,7 @@ namespace PO_Tool
 			try
 			{
 				var rx_regions = new Regex("^#(region|endregion|[1-9]).*$");
-				var rx_strings = new Regex("^(?<type>msgid|msgid_plural|msgstr|msgstr\\[(?<index>\\d)\\])\\s\"((?<string>.*))\"$");
+				var rx_strings = new Regex("^(?<type>msgctxt|msgid|msgid_plural|msgstr|msgstr\\[(?<index>\\d)\\])\\s\"(?<string>.*)\"$");
 				var rx_srings_continue = new Regex("^\"(?<string>.*)\"$");
 				var rx_error = new Regex("^(msgid\\s\"|(#[,:.\\|]))");
 				var block = new GettextBlock();
@@ -116,6 +116,9 @@ namespace PO_Tool
 							
 							switch (m.Groups["type"].Value)
 							{
+								case "msgctxt":
+									block.Context = gs;
+									break;
 								case "msgid":
 									block.ID = gs;
 									block.ID_Breaks = breaks;
@@ -190,7 +193,7 @@ namespace PO_Tool
 		public GettextBlock()
 		{
 			StartLine = LinesCount = -1;
-			ID = IDPlural = null;
+			Context = ID = IDPlural = null;
 			Str = string.Empty;
 			StrInd = new string[0];
 			Flags = new List<string>();
@@ -206,7 +209,7 @@ namespace PO_Tool
 		}
 		
 		public int StartLine, LinesCount;
-		public string ID, IDPlural, Str;
+		public string Context, ID, IDPlural, Str;
 		public string[] StrInd;
 		public List<string> Flags, Comments, AutoComments, Links, PrevIDs, AltStrings;
 		public List<int> ID_Breaks, IDPlural_Breaks, Str_Breaks;
@@ -243,7 +246,12 @@ namespace PO_Tool
 			
 			return result;
 		}
-	
+		
+		public string FormatContext()
+		{
+			return string.Format("msgctxt \"{0}\"", Context);
+		}
+		
 		public string[] FormatMsgID(int format)
 		{
 			string[] result = FormatString(ID, ID_Breaks, format);
