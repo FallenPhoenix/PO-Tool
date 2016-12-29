@@ -53,7 +53,7 @@ namespace PO_Tool
 				{
 					end = sr.EndOfStream;
 					if (keep_line) line --;
-					else str = (end ? String.Empty : sr.ReadLine().Trim());
+					else str = (end ? string.Empty : sr.ReadLine().Trim());
 					keep_line = false;
 
 					if ((close_block = (str.Length == 0)) == false)
@@ -200,7 +200,7 @@ namespace PO_Tool
 			Comments = new List<string>();
 			AutoComments = new List<string>();
 			Links = new List<string>();
-			PrevIDs = new List<string>();
+			PrevIDs = new List<string>();  // Используется и для msgctxt, и для msgid, и для msgid_plural
 			AltStrings = new List<string>();
 			ID_Breaks = new List<int>();
 			IDPlural_Breaks = new List<int>();
@@ -209,7 +209,9 @@ namespace PO_Tool
 		}
 		
 		public int StartLine, LinesCount;
-		public string Context, ID, IDPlural, Str;
+		public string Context;
+		public string ID, IDPlural;
+		public string Str;
 		public string[] StrInd;
 		public List<string> Flags, Comments, AutoComments, Links, PrevIDs, AltStrings;
 		public List<int> ID_Breaks, IDPlural_Breaks, Str_Breaks;
