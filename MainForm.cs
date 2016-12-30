@@ -32,6 +32,7 @@ namespace PO_Tool
 		public bool UpdHeader, UpdPrevIDs, UpdStrings, UpdAltStrings, UpdComments, UpdAutoComments, UpdLinks, UpdFlags;
 		public bool RemPrevIDs, RemStrings, RemAltStrings, RemRegions, RemComments, RemAutoComments, RemLinks, RemFlags;
 		public int FormatIDs, FormatStrings, FormatLinks;
+		public bool BackupFiles;
 		
 		// Коды ошибок (EG - глобальные, EF - отдельного файла)
 		// NOTE: Возможно, это удобно будет переделать на исключения
@@ -80,6 +81,10 @@ namespace PO_Tool
 							int ires;
 							switch (category)
 							{
+								case "COMMON":
+									if (m.Groups["var"].Value == "Backup" && bool.TryParse(m.Groups["value"].Value, out bres))
+										chBackup.Checked = bres;
+									break;
 								case "UPDATE":
 									foreach (CheckBox c in gUpdate.Controls)
 										if ((c.Tag as string) == m.Groups["var"].Value && bool.TryParse(m.Groups["value"].Value, out bres))
@@ -115,7 +120,10 @@ namespace PO_Tool
 			{
 				var sw = new StreamWriter(Application.StartupPath + "/PO Tool.cfg");
 				
-				sw.WriteLine("[UPDATE]");
+				sw.WriteLine("[COMMON]");
+				sw.WriteLine("Backup = " + chBackup.Checked);
+				
+				sw.WriteLine("\r\n[UPDATE]");
 				foreach (CheckBox c in gUpdate.Controls)
 					sw.WriteLine((c.Tag as string) + " = " + c.Checked);
 				
@@ -299,6 +307,7 @@ namespace PO_Tool
 				SetFields(gUpdate.Controls, fields);
 				SetFields(gRemove.Controls, fields);
 				SetFields(gFormat.Controls, fields);
+				BackupFiles = chBackup.Checked;
 				
 				Stop = false;
 				if (Files.Count > 1)
@@ -445,7 +454,7 @@ namespace PO_Tool
 							sw.Close();
 							// Net нормально понимает и просто реплейс для любых ситуаций. Mono - нифига.
 							if (File.Exists(file_dest))
-								File.Replace(file_dest + ".tmp", file_dest, file_dest + ".bak");
+								File.Replace(file_dest + ".tmp", file_dest, !BackupFiles ? null : file_dest + ".bak");
 							else
 								File.Move(file_dest + ".tmp", file_dest);
 						}

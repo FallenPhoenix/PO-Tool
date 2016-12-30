@@ -71,6 +71,7 @@ namespace PO_Tool
 			this.progressBar = new System.Windows.Forms.ProgressBar();
 			this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
 			this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+			this.chBackup = new System.Windows.Forms.CheckBox();
 			this.gUpdate.SuspendLayout();
 			this.gFormat.SuspendLayout();
 			this.gRemove.SuspendLayout();
@@ -139,7 +140,7 @@ namespace PO_Tool
 			// bStart
 			// 
 			this.bStart.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.bStart.Location = new System.Drawing.Point(263, 401);
+			this.bStart.Location = new System.Drawing.Point(269, 401);
 			this.bStart.Name = "bStart";
 			this.bStart.Size = new System.Drawing.Size(75, 23);
 			this.bStart.TabIndex = 0;
@@ -491,7 +492,7 @@ namespace PO_Tool
 			// progressBar
 			// 
 			this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.progressBar.Location = new System.Drawing.Point(12, 411);
+			this.progressBar.Location = new System.Drawing.Point(500, 411);
 			this.progressBar.Name = "progressBar";
 			this.progressBar.Size = new System.Drawing.Size(100, 13);
 			this.progressBar.TabIndex = 999;
@@ -504,11 +505,22 @@ namespace PO_Tool
 			this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
 			this.backgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker_ProgressChanged);
 			// 
+			// chBackup
+			// 
+			this.chBackup.AutoSize = true;
+			this.chBackup.Location = new System.Drawing.Point(12, 407);
+			this.chBackup.Name = "chBackup";
+			this.chBackup.Size = new System.Drawing.Size(160, 17);
+			this.chBackup.TabIndex = 1000;
+			this.chBackup.Text = "Создать резервные копии";
+			this.chBackup.UseVisualStyleBackColor = true;
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(612, 436);
+			this.Controls.Add(this.chBackup);
 			this.Controls.Add(this.progressBar);
 			this.Controls.Add(this.gRemove);
 			this.Controls.Add(this.cbDestFile);
@@ -538,6 +550,7 @@ namespace PO_Tool
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.CheckBox chBackup;
 		private System.Windows.Forms.CheckBox chRemPrevIDs;
 		private System.Windows.Forms.CheckBox chUpdPrevIDs;
 		private System.Windows.Forms.CheckBox chUpdAltStrings;
