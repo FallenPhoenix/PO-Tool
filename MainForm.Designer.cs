@@ -539,7 +539,6 @@ namespace PO_Tool
 			this.MaximizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(500, 310);
 			this.Name = "MainForm";
-			this.ShowIcon = false;
 			this.Text = "PO Tool";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
 			this.gUpdate.ResumeLayout(false);

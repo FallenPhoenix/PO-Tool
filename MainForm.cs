@@ -56,6 +56,8 @@ namespace PO_Tool
 			cbUpdateFile.Tag = new[]{"Путь обновления", "Укажите папку, в которой находятся файлы для обновления."};
 			cbDestFile.Tag = new[]{"Целевой путь", "Укажите папку, в которую программа запишет обработанные файлы."};
 			
+			this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
+			
 			#region Загрузка конфигурации
 			var config = Application.StartupPath + "/PO Tool.cfg";
 			if (File.Exists(config))
